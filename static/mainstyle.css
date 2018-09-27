@@ -38,6 +38,28 @@ margin-bottom: 10px;
 .Aligner-item--bottom {
   align-self: flex-end;
 }
+.jtc{
+  animation: changecolor 1s infinite alternate;
+  background: linear-gradient(0deg, red, blue);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: 60px;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+	font-family: 'Chicle', cursive;
+}
+@keyframes changecolor {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
 input {
 text-align: center;
 background-color: #ECF0F1;

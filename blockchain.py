@@ -6,14 +6,15 @@ from uuid import uuid4
 from usertest import *
 from pprint import *
 import requests
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, session, redirect
 
 class Blockchain:
-    def __init__(self, userchain):
+    def __init__(self):
+        global users
         self.current_transactions = []
         self.chain = []
         self.nodes = set()
-
+        self.transaction_history = {}
         # Create the genesis block
         self.new_block(previous_hash='1', proof=100)
 
@@ -94,9 +95,28 @@ class Blockchain:
 
         return proof
 
-    def vaild_transaction(self, sender, recipient, private_key):
-        user.is_private_valid()
+    def balence(self):
+        self.transaction_history = {}
+        for block in self.chain:
+            print(block)
+            for trans in block["transactions"]:
+                if trans["recipient"] not in self.transaction_history:
+                    self.transaction_history[trans["recipient"]] = [int(trans["amount"])]
+                elif trans["recipient"] in self.transaction_history:
+                    self.transaction_history[trans["recipient"]].append(int(trans["amount"]))
+                if trans["sender"] not in self.transaction_history:
+                    self.transaction_history[trans["sender"]] = [int(0 - int(trans["amount"]))]
+                elif trans["sender"] in self.transaction_history:
+                    self.transaction_history[trans["sender"]].append(int(0 - int(trans["amount"])))
 
+        for person in self.transaction_history:
+            users.balence_update(person, self.transaction_history[person])
+
+    def transaction_log(self, pubkey):
+        if pubkey in self.transaction_history:
+            return self.transaction_history[pubkey]
+        else:
+            return []
     @staticmethod
     def valid_proof(last_proof, proof, last_hash):
         """
@@ -112,6 +132,8 @@ class Blockchain:
         guess = f'{last_proof}{proof}{last_hash}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] == "0000"
+    def chain(self):
+        return self.chain
 
 
 # Instantiate the Node
@@ -122,9 +144,17 @@ node_identifier = str(uuid4()).replace('-', '')
 
 # Instantiate the Blockchain
 users = Userchain()
-blockchain = Blockchain(users)
+blockchain = Blockchain()
 app.secret_key = 'iaLjhsAiGIywsIwLqUeCoJygdqWACMJMjEcejbcDBUaYmyhWqbIzFyeaowaTobrZWhaFnLRWppduOhnMeCNXRslhfNujJBfHlOzV'
-session['logged_in'] = False
+
+@app.route("/")
+def firstpage():
+    if 'logged_in' not in session.keys():
+        session['logged_in'] = False
+    if session['logged_in'] == False:
+        return redirect('/page')
+    if session['logged_in'] == True:
+        return redirect('/page2')
 
 @app.route('/mine', methods=['GET'])
 def mine():
@@ -137,7 +167,8 @@ def mine():
     # Forge the new Block by adding it to the chain
     previous_hash = blockchain.hash(last_block)
     block = blockchain.new_block(proof, previous_hash)
-
+    blockchain.balence()
+    pprint(users.getusers())
     response = {
         'message': "New Block Forged",
         'index': block['index'],
@@ -151,18 +182,27 @@ def mine():
 @app.route('/transactions/new', methods=['POST'])
 def new_transaction():
     values = request.get_json()
-
     # Check that the required fields are in the POST'ed data
-    required = ['sender', 'recipient', 'amount', 'sender_private']
+    required = ['sender', 'recipient', 'amount']
     if not all(k in values for k in required):
         return 'Missing values', 400
-
     # Create a new Transaction
     index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
-
     response = {'message': f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
 
+@app.route('/new/transactions', methods=['POST'])
+def new_transaction_from_website():
+    if users.vaild_transaction(request.form.get('public_key_sender'), request.form.get('private_key_sender'), session['name']):
+        print(request.form.get('public_key_recipient'))
+        print(users.is_public(request.form.get('public_key_recipient')))
+        if users.is_public(request.form.get('public_key_recipient')):
+            index = blockchain.new_transaction(request.form.get('public_key_sender'), request.form.get('public_key_recipient'), request.form.get('amount'))
+            return redirect('/')
+        else:
+            return "recipient doesnt exist"
+    else:
+        return "Sender infomation is wrong"
 
 @app.route('/chain', methods=['GET'])
 def full_chain():
@@ -174,17 +214,35 @@ def full_chain():
 
 @app.route('/page')
 def login():
+    if session['logged_in'] == True:
+        return redirect('/page2')
     return render_template('loginnew.html')
-@app.route("/loginsend", method=["POST"])
+
+@app.route("/loginsend", methods=['POST'])
 def loginincheck():
     email = request.form.get('email')
     password = request.form.get('password')
     if users.login(email, password):
+        session['name'] = users.get_name(email)
+        session['pubkey'] = users.get_public(session['name'])
+        session['prakey'] = users.get_private(session['name'])
+        session['logged_in'] = True
         return redirect('/page2')
 
 @app.route('/page2')
 def mainpage():
-    return render_template('Main.html', name="Jake Townend", balence="$0", public_key_page="rctfvgbhyvuyvu", privatekey="TVVUYVUVYUVYUVYUVUY", transactions=["$2", "$5", "$10"])
+    if session['logged_in'] == False:
+        return redirect('/page')
+    return render_template('Main.html', name=session['name'], balence=users.get_balence(session['name']), public_key_page=session['pubkey'], privatekey=session['prakey'], transactions=blockchain.transaction_log(session["pubkey"]))
+
+@app.route('/logout')
+def logout():
+    session['name'] = ''
+    session['balence'] = '0'
+    session['pubkey'] = ''
+    session['prakey'] = ''
+    session['logged_in'] = False
+    return redirect('/')
 
 
 

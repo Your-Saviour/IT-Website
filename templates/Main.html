@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/static/style.css" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Chicle" rel="stylesheet">
 <script>
 function myFunction() {
     alert("{{privatekey}}");
@@ -10,24 +11,29 @@ function myFunction() {
 		<div class="login-screen">
 			<h1>₿ ₿ ₿ Jake Coin ₿ ₿ ₿</h1>
 			<center>
-				<h2>{{name}}, {{balence}}, {{public_key_page}}, <button onclick="myFunction()">Private Key</button> </h2>
+				<h2>{{name}}, <a class="jtc">JTC </a>{{balence}}, <a style="font-size: 10px">{{public_key_page}}</a>, <button onclick="myFunction()">Private Key</button> </h2>
 			</center>
+      <br>
 			<div class="row">
   			<div class="column" style="background-color:#bbb;float: right !important;">
     			<p>Forms</p>
           <div>
-            <form action="/login" method="POST">
+            <form action="/new/transactions" method="POST">
               <div class="control-group">
-      				  <input type="text" class="login-field" value="" placeholder="Your public key" name="public_key_sender">
+      				  <input type="text" class="login-field" value="" placeholder="Your public key" name="public_key_sender" autocomplete="off">
       				  <label class="login-field-icon fui-user" for="login-name"></label>
       				</div>
 
       				<div class="control-group">
-                <input type="password" class="login-field" value="" placeholder="There public key" name="public_key_recipient">
+                <input type="text" class="login-field" value="" placeholder="There public key" name="public_key_recipient" autocomplete="off">
       				  <label class="login-field-icon fui-lock" for="login-pass"></label>
       				</div>
               <div class="control-group">
-                <input type="password" class="login-field" value="" placeholder="Your private key" name="private_key_sender">
+                <input type="text" class="login-field" value="" placeholder="Your private key" name="private_key_sender" autocomplete="off">
+                <label class="login-field-icon fui-lock" for="login-pass"></label>
+              </div>
+              <div class="control-group">
+                <input type="text" class="login-field" value="" placeholder="Amount" name="amount" autocomplete="off">
                 <label class="login-field-icon fui-lock" for="login-pass"></label>
               </div>
 

@@ -118,7 +118,7 @@ ol {
 
 h1 {
   animation: changecolor 1s infinite alternate;
-  background: linear-gradient(0deg, red, blue);
+  background: linear-gradient(90deg, red, blue);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -126,9 +126,20 @@ h1 {
   text-align: center;
   padding: 0;
   margin: 0;
-	font-family: 'Chicle', cursive;
+  font-family: 'Chicle', cursive;
 }
-
+.jtc{
+  animation: changecolor 1s infinite alternate;
+  background: linear-gradient(0deg, red, blue);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: px;
+  text-align: center;
+  /* padding: 0; */
+  /* margin: 0; */
+  /* font-family: 'Chicle', cursive; */
+}
 h2 {
     display: inline;
     margin: 0;

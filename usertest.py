@@ -21,12 +21,14 @@ class Userchain:
 
 
         public_key = ''.join(secrets.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(64))
-        while public_key in self.public_key:
-            public_key = ''.join(secrets.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(64))
-
+        self.public_key.append(public_key)
+        #while public_key in self.public_key:
+            #public_key = ''.join(secrets.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(64))
+            #self.public_key.append(public_key)
         private_key = ''.join(secrets.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(64))
-        while private_key in self.private_key:
-            private_key = ''.join(secrets.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(64))
+        self.private_key.append(private_key)
+        #while private_key in self.private_key:
+            #private_key = ''.join(secrets.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(64))
 
 
         password = password.encode('utf-8')
@@ -47,6 +49,11 @@ class Userchain:
 
     def get_public(self, name):
         return self.chain[name]['public key']
+
+    def get_name(self, email):
+        for user in self.chain:
+            if self.chain[user]['email'] == str(email):
+                return self.chain[user]['name']
 
     def get_private(self, name):
         return self.chain[name]['private key']
@@ -70,26 +77,40 @@ class Userchain:
         for user in self.chain:
             if self.chain[user]['public key'] == public_key:
                 return [self.chain[user]['private key'], self.chain[user]['name']]
+
     def vaild_transaction(self, public_key, private_key, name):
         if not name in self.chain:
-            return "Name not in chain"
+            #return "Name not in chain"
+            return False
 
-        if self.chain[name]['public_key'] != public_key:
-            return "Public Key not found"
+        if self.chain[name]['public key'] != public_key:
+            #return "Public Key not found"
+            return False
 
-        if self.chain[name]['private_key'] != private_key:
-            return "Private key doesnt match"
+        if self.chain[name]['private key'] != private_key:
+            #return "Private key doesnt match"
+            return False
 
-        if self.chain[name]['public_key'] == public_key:
-            if self.chain[name]['private_key'] == private_key:
+        if self.chain[name]['public key'] == public_key:
+            if self.chain[name]['private key'] == private_key:
                     return True
+        return False
+
     def login(self, email, password):
         password = password.encode('utf-8')
         password = str(hashlib.sha256(password).hexdigest())
         for user in self.chain:
             if self.chain[user]['email'] == str(email) and self.chain[user]['password'] == str(password):
                 return True
-        return False
+        #return False
+
+    def balence_update(self, pubkey, amount):
+        final = 0
+        for i in amount:
+            final = final + int(i)
+        for user in self.chain:
+            if self.chain[user]["public key"] == pubkey:
+                self.chain[user]["balence"] = final
 
 
 if __name__ == '__main__':

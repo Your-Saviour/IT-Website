@@ -1,31 +1,13 @@
-<link rel="stylesheet" href="/static/style.css" type="text/css">
+<link rel="stylesheet" href="/static/mainstyle.css" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Chicle" rel="stylesheet">
 <head>
-<script>
-function startTime() {
-    var today = new Date();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
-    m = checkTime(m);
-    s = checkTime(s);
-    document.getElementById('txt').innerHTML =
-    h + ":" + m + ":" + s;
-    var t = setTimeout(startTime, 500);
-}
-function checkTime(i) {
-    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-    return i;
-}
-</script>
 </head>
-<body onload="startTime()">
-<form action="/login" method="POST">
-  <b><div class = "time" id="txt" style="font-size: 15"></div></b>
+<body >
+<form action="/loginsend" method="POST">
 	<div class="login">
 		<div class="login-screen">
 			<div class="app-title">
-				<h1>Login</h1>
+				<h1 style="font-family: Chicle, cursive;letter-spacing: 10;">Login</h1>
 			</div>
 
 			<div class="login-form">
