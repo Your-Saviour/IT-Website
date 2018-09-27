@@ -1,0 +1,51 @@
+<link rel="stylesheet" href="/static/style.css" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Chicle" rel="stylesheet">
+<head>
+<script>
+function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('txt').innerHTML =
+    h + ":" + m + ":" + s;
+    var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
+</script>
+</head>
+<body onload="startTime()">
+<form action="/login" method="POST">
+  <b><div class = "time" id="txt" style="font-size: 15"></div></b>
+	<div class="login">
+		<div class="login-screen">
+			<div class="app-title">
+				<h1>Login</h1>
+			</div>
+
+			<div class="login-form">
+				<div class="control-group">
+				<input type="text" class="login-field" value="" placeholder="Email" name="email">
+				<label class="login-field-icon fui-user" for="login-name"></label>
+				</div>
+
+				<div class="control-group">
+				<input type="password" class="login-field" value="" placeholder="password" name="password">
+				<label class="login-field-icon fui-lock" for="login-pass"></label>
+				</div>
+
+                <input type="submit" value="Log in" class="btn btn-primary btn-large btn-block" >
+			    <br>
+                <h1 style="font-size: 20">Dont have an account?</h1>
+                <h1 style="font-size: 15"><a href="/mail/">Register!</a></h1>
+								<b><div id="txt" style="font-size: 15"></div></b>
+			</div>
+		</div>
+	</div>
+</form>
+</body>

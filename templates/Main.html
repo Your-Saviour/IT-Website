@@ -1,0 +1,50 @@
+<link rel="stylesheet" href="/static/style.css" type="text/css">
+<script>
+function myFunction() {
+    alert("{{privatekey}}");
+}
+</script>
+<head>
+</head>
+<body>
+		<div class="login-screen">
+			<h1>₿ ₿ ₿ Jake Coin ₿ ₿ ₿</h1>
+			<center>
+				<h2>{{name}}, {{balence}}, {{public_key_page}}, <button onclick="myFunction()">Private Key</button> </h2>
+			</center>
+			<div class="row">
+  			<div class="column" style="background-color:#bbb;float: right !important;">
+    			<p>Forms</p>
+          <div>
+            <form action="/login" method="POST">
+              <div class="control-group">
+      				  <input type="text" class="login-field" value="" placeholder="Your public key" name="public_key_sender">
+      				  <label class="login-field-icon fui-user" for="login-name"></label>
+      				</div>
+
+      				<div class="control-group">
+                <input type="password" class="login-field" value="" placeholder="There public key" name="public_key_recipient">
+      				  <label class="login-field-icon fui-lock" for="login-pass"></label>
+      				</div>
+              <div class="control-group">
+                <input type="password" class="login-field" value="" placeholder="Your private key" name="private_key_sender">
+                <label class="login-field-icon fui-lock" for="login-pass"></label>
+              </div>
+
+              <input type="submit" value="Submit" class="btn btn-primary btn-large btn-block" >
+          </div>
+  			</div>
+  			<div class="column" style="background-color:#bbb;">
+    			<p>Transactions</p>
+					<ul>
+						{% for trans in transactions %}
+						<li>
+							{{ trans }}
+						</li>
+						{% endfor %}
+					</ul>
+  			</div>
+			</div>
+
+		</div>
+</body>

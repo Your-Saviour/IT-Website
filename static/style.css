@@ -1,0 +1,150 @@
+* {
+box-sizing: border-box;
+}
+
+*:focus {
+	outline: none;
+}
+body {font-family: Arial;background-color: #1bd1d1;padding: 40;}
+.login {margin: 30px auto;width: 400;}
+.login-screen {background-color: white;padding: 30px;border-radius: 30px;height: 100%;}
+
+.app-title {
+text-align: center;
+color: #777;
+}
+
+.login-form {
+text-align: center;
+}
+.control-group {
+margin-bottom: 10px;
+}
+.Aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Aligner-item {
+  max-width: 100%;
+}
+
+.Aligner-item--top {
+  align-self: flex-start;
+}
+
+.Aligner-item--bottom {
+  align-self: flex-end;
+}
+.drop {
+
+}
+/* Create two equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 45%;
+    padding: 10px;
+    height: 60%; /* Should be removed. Only for demonstration */
+    border-radius: 40px;
+    text-align: center;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+input {
+text-align: center;
+background-color: #ECF0F1;
+border: 2px solid transparent;
+border-radius: 3px;
+font-size: 16px;
+font-weight: 200;
+padding: 10px 0;
+width: 250px;
+transition: border .5s;
+}
+
+input:focus {
+border: 2px solid #3498DB;
+box-shadow: none;
+}
+
+.btn {
+  border: 2px solid transparent;
+  background: #3498DB;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 25px;
+  padding: 10px 0;
+  text-decoration: none;
+  text-shadow: none;
+  border-radius: 3px;
+  box-shadow: none;
+  transition: 0.25s;
+  display: block;
+  width: 250px;
+  margin: 0 auto;
+}
+
+.btn:hover {
+  background-color: #2980B9;
+}
+
+.login-link {
+  font-size: 12px;
+  color: #444;
+  display: block;
+  margin-top: 12px;
+}
+.time{
+	margin-left: auto;
+	margin-right: auto;put
+	color: #000000
+
+}
+button {text-align: center;background-color: #ECF0F1;border: 2px solid transparent;border-radius: 100px;font-size: 16px;font-weight: 200;padding: 10px 0;width: 100px;transition: border .5s;font-weight: bold;}
+li {
+
+}
+ol {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+  animation: changecolor 1s infinite alternate;
+  background: linear-gradient(0deg, red, blue);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: 60px;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+	font-family: 'Chicle', cursive;
+}
+
+h2 {
+    display: inline;
+    margin: 0;
+    padding: 30px;
+}
+
+@keyframes changecolor {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+img {
+    margin: 0 auto;
+}
