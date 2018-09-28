@@ -38,6 +38,7 @@ function myFunction() {
               </div>
 
               <input type="submit" value="Submit" class="btn btn-primary btn-large btn-block" >
+            </form>
           </div>
   			</div>
   			<div class="column" style="background-color:#bbb;">
@@ -45,12 +46,19 @@ function myFunction() {
 					<ul>
 						{% for trans in transactions %}
 						<li>
-							{{ trans }}
+							<a class="jtc">JTC</a> {{ trans }}
 						</li>
 						{% endfor %}
 					</ul>
   			</div>
 			</div>
-
+      <div style="text-align: center;padding: 20;">
+        <form action="/logout" method="GET" class="buts">
+          <input type="submit" value="Logout">
+        </form>
+        <form action="/mine" method="GET" class="buts">
+          <input type="submit" value="Mine">
+        </form>
+      </div>
 		</div>
 </body>

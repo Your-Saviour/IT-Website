@@ -140,6 +140,7 @@ h1 {
   /* margin: 0; */
   /* font-family: 'Chicle', cursive; */
 }
+.buts {display: inline;}
 h2 {
     display: inline;
     margin: 0;
